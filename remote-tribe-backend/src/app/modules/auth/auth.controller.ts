@@ -24,6 +24,9 @@ class Controller extends BaseController {
     })
     login = this.catchAsync(async (req, res, next) => {
         const result = await AuthService.login(req.body)
+        const {accessToken,refreshToken} = result;
+        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 15 });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
         this.sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
@@ -48,6 +51,18 @@ class Controller extends BaseController {
             statusCode: httpStatus.OK,
             success: true,
             message: 'User profile successfully',
+            data: result
+        })
+    })
+    refreshToken = this.catchAsync(async(req, res, next) => {
+        const result = await AuthService.refreshToken(req.cookies.refreshToken)
+        const {accessToken,refreshToken} = result;
+        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 15 });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
+        this.sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: 'User refresh token successfully',
             data: result
         })
     })

@@ -12,4 +12,5 @@ router.post('/verify', AuthController.confirmRegistration)
 router.post('/login', AuthController.login)
 router.post('/logout',auth(Role.ADMIN,Role.EMPLOYER,Role.SUPER_ADMIN,Role.JOB_SEEKER), AuthController.logout)
 router.get('/profile', auth(Role.ADMIN, Role.EMPLOYER, Role.SUPER_ADMIN, Role.JOB_SEEKER), AuthController.profile)
+router.post('/refresh', AuthController.refreshToken)
 export const AuthRoute = router
