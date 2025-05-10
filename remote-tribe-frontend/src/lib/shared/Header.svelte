@@ -1,5 +1,37 @@
-<script>
+<script lang="ts">
+	import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+	import { api } from '$lib/api/api';
+	import { roleBasedRoutes } from '$lib/stores/routes';
+	import { userProfile } from '$lib/stores/userProfile';
 	let mobileMenuOpen = false;
+	type User = {
+		name: string;
+		email: string;
+		role:string
+
+	}
+	let user:User|null = null;
+	let role:string|null | undefined = null;
+	onMount(async()=>{
+		try {
+			user = await api('/auth/profile', {method: 'GET'});
+			userProfile.set(user);
+			role = roleBasedRoutes(user?.role);
+			
+		} catch (error) {
+			console.log(error)
+		}
+	})
+	const handleLogout = async () => {
+		try {
+			await api('/auth/logout', { method: 'POST' });
+			localStorage.removeItem('accessToken');
+			goto('/auth/login');
+		} catch (error) {
+			console.log(error);
+		}
+	}
 </script>
 
 <header class="bg-white shadow-sm dark:bg-gray-900">
@@ -29,18 +61,31 @@
 					>
 				</nav>
 			</div>
-			<div class="hidden sm:ml-6 sm:flex sm:items-center">
-				<a
-					href="/auth/login"
-					class="rounded-md border border-transparent bg-orange-100 px-4 py-2 text-sm font-medium text-orange-700 hover:bg-orange-200"
-					>Sign in</a
-				>
-				<a
-					href="/auth/register"
-					class="ml-4 rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700"
-					>Sign up</a
-				>
-			</div>
+		{#if user === null}
+		<div class="hidden sm:ml-6 sm:flex sm:items-center">
+			<a
+				href="/auth/login"
+				class="rounded-md border border-transparent bg-orange-100 px-4 py-2 text-sm font-medium text-orange-700 hover:bg-orange-200"
+				>Sign in</a
+			>
+			<a
+				href="/auth/register"
+				class="ml-4 rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700"
+				>Sign up</a
+			>
+		</div>
+		{:else}
+		<div class="hidden sm:ml-6 sm:flex sm:items-center">
+			<a
+				href="/dashboard/{role}"
+				class="rounded-md border border-transparent bg-orange-100 px-4 py-2 text-sm font-medium text-orange-700 hover:bg-orange-200"
+				>Dashboard</a
+			>
+			<button on:click={handleLogout}
+				class="ml-4 rounded-md border cursor-pointer border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700"
+				>Logout</button>
+		</div>
+		{/if}
 			<div class="-mr-2 flex items-center sm:hidden">
 				<button
 					on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
