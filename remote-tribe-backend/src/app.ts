@@ -5,16 +5,19 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandler"
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use("/api/v1", router)
 app.use(globalErrorHandler)
 app.get("/", (req, res) => {
     res.json({
-        statusCode:200,
-        success:true,
-        message:"Remote tribe APIs"
+        statusCode: 200,
+        success: true,
+        message: "Remote tribe APIs"
     })
 })
 export default app

@@ -1,6 +1,6 @@
 import prisma from "../../../prisma"
 import { config } from "../../config"
-import { generateToken } from "../../helpers/generateToken"
+import { generateToken, verifyToken } from "../../helpers/generateToken"
 import ApiError from "../../middleware/apiError"
 import { getCache, setCache } from "../../redis"
 import { generateSixDigitCode } from "../../shared"
@@ -8,6 +8,7 @@ import { AuthMail } from "./auth.mail"
 import bcrypt from "bcrypt"
 import httpStatus from "http-status"
 import { generateAuthTokens } from "./auth.utils"
+import { Secret } from "jsonwebtoken"
 
 class Service {
     async userRegistration(payload: { name: string, email: string, password: string }) {
@@ -42,6 +43,13 @@ class Service {
         if(!user) throw new ApiError(httpStatus.NOT_FOUND,'User not found')
         const {password,...rest} = user
         return rest
+    }
+    async refreshToken(refreshToken:string) {
+        const userInfo = verifyToken(refreshToken, config.refresh_token_secret as Secret)
+        if(!userInfo) throw new ApiError(httpStatus.UNAUTHORIZED,'Invalid refresh token')
+        const user = await prisma.user.findUniqueOrThrow({ where: { id: userInfo.id } })
+        const {accessToken,refreshToken:refreshToken1} = generateAuthTokens({id:user.id,role:user.role})
+       return {accessToken,refreshToken:refreshToken1}
     }
    
 
