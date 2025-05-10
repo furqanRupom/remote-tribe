@@ -28,7 +28,8 @@ export const auth = {
     setTokens: (tokens: { accessToken: string; refreshToken: string }) => {
         authStore.set(tokens);
         if (browser) {
-            localStorage.setItem('auth', JSON.stringify(tokens));
+            localStorage.setItem('auth', JSON.stringify(tokens)); // authorization should like as 'Bearer <token> (accessToken)'
+            // and refreshToken should be stored in cookie
         }
     },
     clear: () => {
