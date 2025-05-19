@@ -14,7 +14,7 @@ class Service {
     async userRegistration(payload: { name: string, email: string, password: string }) {
         const user = await prisma.user.findUnique({ where: { email: payload.email } })
         if(user){
-            throw new ApiError(httpStatus.BAD_REQUEST, 'User already exists')
+            throw new ApiError(httpStatus.CONFLICT, 'User already exists')
         }
         
         const code = generateSixDigitCode()
