@@ -29,8 +29,10 @@ model User {
   role         Role          @default(JOB_SEEKER)
   jobs         Job[]         @relation("PostedJobs")
   applications Application[]
-  is_verified  Boolean       @default(false)
-  is_deleted   Boolean       @default(false)
+  phone        String?
+  address      String?
+  isVerified   Boolean       @default(false)
+  isDeleted    Boolean       @default(false)
   status       Status        @default(ACTIVE)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -48,6 +50,7 @@ model Job {
   salaryRange  String
   isRemote     Boolean
   isApproved   Boolean       @default(false)
+  isDeleted    Boolean       @default(false)
   postedBy     User          @relation("PostedJobs", fields: [postedById], references: [id])
   postedById   String
   applications Application[]

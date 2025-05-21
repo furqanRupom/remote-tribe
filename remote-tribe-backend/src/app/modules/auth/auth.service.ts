@@ -42,7 +42,7 @@ class Service {
         }
         try {
             user.password = await bcrypt.hash(user.password, 10);
-            await prisma.user.create({ data: { ...user, is_verified: true } });
+            await prisma.user.create({ data: { ...user, isVerified: true } });
             logger.info(`User created successfully: ${user.email}`);
             await AuthMail.sendConfirmationMail({ name: user.name, email: user.email });
             logger.debug(`Confirmation email sent to ${user.email}`);
@@ -54,7 +54,7 @@ class Service {
     }
     async login(payload: { email: string, password: string }) {
         logger.info(`Login attempt for email: ${payload.email}`);
-       const user = await prisma.user.findUnique({ where: { email: payload.email,is_verified: true } })
+       const user = await prisma.user.findUnique({ where: { email: payload.email,isVerified: true } })
        if(!user) {
         logger.warn(`Login failed - User not found or not verified: ${payload.email}`);
         throw new ApiError(httpStatus.NOT_FOUND,'User not found')
@@ -81,7 +81,7 @@ class Service {
     }
     async profile(id:string) {
         logger.info(`Profile attempt for id: ${id}`);
-        const user = await prisma.user.findUnique({ where: { id,is_verified: true,is_deleted: false } })
+        const user = await prisma.user.findUnique({ where: { id,isVerified: true,isDeleted: false } })
         if(!user) {
             logger.warn(`Profile failed - User not found : ${id}`);
             throw new ApiError(httpStatus.NOT_FOUND,'User not found')

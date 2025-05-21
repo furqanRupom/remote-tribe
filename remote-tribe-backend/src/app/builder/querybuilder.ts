@@ -29,20 +29,24 @@ class QueryBuilder<T extends ModelNames> {
         }
         return this
     }
-    filter(preTypeData?: Record<string, unknown>) {
+    filter(preTypeData?: Record<string, unknown>, arrayFields: string[] = []) {
         const { searchTerm, limit, page, total, sort, ...filterData } = this.query
         const combinedFilterData = { ...filterData, ...preTypeData }
+        const filterConditions = Object.keys(combinedFilterData).reduce((conditions, field) => {
+            let value = combinedFilterData[field]
 
-        const filterConditions = Object.keys(combinedFilterData).reduce(
-            (conditions, field) => {
-                const value = combinedFilterData[field]
-                if (value !== undefined) {
+            if (value !== undefined) {
+                if (arrayFields.includes(field) && typeof value === 'string') {
+                    const valuesArray = value.split(',').map(item => item.trim()).filter(Boolean)
+                    conditions[field] =
+                        valuesArray.length === 1 ? { has: valuesArray[0] } : { hasSome: valuesArray }
+                } else {
                     conditions[field] = value
                 }
-                return conditions
-            },
-            {} as Record<string, any>,
-        )
+            }
+
+            return conditions
+        }, {} as Record<string, any>)
 
         if (Object.keys(filterConditions).length > 0) {
             this.whereConditions = {
@@ -50,8 +54,10 @@ class QueryBuilder<T extends ModelNames> {
                 AND: [...(this.whereConditions.AND || []), filterConditions],
             }
         }
+
         return this
     }
+      
 
     sort() {
         const sortString = this.query.sort || 'createdAt'
