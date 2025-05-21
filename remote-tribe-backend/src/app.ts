@@ -7,7 +7,7 @@ import morgan from "morgan"
 const app = express()
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true
 }))
 app.use(morgan('combined', { stream: morganStream }));

@@ -5,3 +5,5 @@ docker-compose.yml
 folder.txt
 docs
 logs
+vercel
+vercel.json
