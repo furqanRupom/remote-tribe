@@ -1,14 +1,16 @@
 import express from "express"
 import cors from "cors"
 import router from "./app/routes/router"
-import { globalErrorHandler } from "./app/middleware/globalErrorHandler"
-
+import { globalErrorHandler } from "./app/middleware"
+import { morganStream } from "./app/logger"
+import morgan from "morgan"
 const app = express()
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true
 }))
+app.use(morgan('combined', { stream: morganStream }));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use("/api/v1", router)

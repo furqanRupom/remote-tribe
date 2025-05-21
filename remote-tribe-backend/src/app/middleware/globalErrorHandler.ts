@@ -8,6 +8,7 @@ import { JsonWebTokenError } from 'jsonwebtoken'
 import { IErrorSources } from '../interface/Error'
 import ApiError from './apiError'
 import { ErrorHandler } from '../errors/Error'
+import logger from '../logger/logger'
 
 class GlobalErrorHandler {
     handlers(error: any, req: Request, res: Response, next: NextFunction) {
@@ -82,5 +83,12 @@ export const globalErrorHandler = (
     res: Response,
     next: NextFunction,
 ) => {
+    logger.error({
+        message: error.message,
+        stack: error.stack,
+        path: req.path,
+        method: req.method,
+        ip: req.ip,
+      });
     globalErrorHandlers.handlers(error, req, res, next)
 }

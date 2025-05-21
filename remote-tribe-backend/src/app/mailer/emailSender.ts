@@ -1,12 +1,15 @@
 import nodemailer from 'nodemailer'
 import { config } from '../config'
+import logger from '../logger/logger'
 
 const EmailSender = async (
     email: string | undefined,
     subject: string,
     htmlContent: string,
 ) => {
+    logger.info(`Sending email attempt to - ${email}`);
     try {
+       
         const transporter = nodemailer.createTransport({
             host: config.app_host,
             port: Number(config.app_port),
@@ -24,8 +27,9 @@ const EmailSender = async (
             html: htmlContent,
         }
         const info = await transporter.sendMail(mailOptions)
+        if(info) logger.info(`Email sent to - ${email}`);
     } catch (error) {
-        console.error('Error sending email:', error)
+        logger.error(`Error sending email to - ${email}`);
     }
 }
 export default EmailSender
