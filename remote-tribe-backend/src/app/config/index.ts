@@ -14,5 +14,6 @@ export const config = {
     access_token_secret: process.env.SECRET_ACCESS_TOKEN,
     refresh_token_secret: process.env.SECRET_REFRESH_TOKEN,
     access_token_exp: process.env.ACCESS_TOKEN_EXPIRY,
-    refresh_token_exp: process.env.REFRESH_TOKEN_EXPIRY
+    refresh_token_exp: process.env.REFRESH_TOKEN_EXPIRY,
+    is_production:process.env.IS_PRODUCTION
 }

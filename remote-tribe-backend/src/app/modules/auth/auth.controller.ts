@@ -1,7 +1,6 @@
 import BaseController from "../../shared/baseController"
 import httpStatus from "http-status"
 import { AuthService } from "./auth.service"
-import prisma from "../../../prisma"
 
 class Controller extends BaseController {
     userRegistration = this.catchAsync(async (req, res, next) => {

@@ -4,3 +4,4 @@ dist
 docker-compose.yml
 folder.txt
 docs
+logs
