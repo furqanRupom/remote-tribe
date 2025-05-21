@@ -17,8 +17,8 @@
     "lint-prettier": "npm run lint-check && npm run prettier-check",
     "prepare": "husky",
     "prisma:generate": "prisma generate",
-    "logs:clean": "rm -rf logs/*",
-    "prestart": "mkdir -p logs"
+    "logs:clean": "rimraf logs/*",
+    "prestart": "mkdirp logs"
   },
   "keywords": [],
   "author": "",
@@ -53,6 +53,8 @@
     "@types/nodemailer": "^6.4.17",
     "@types/supertest": "^6.0.3",
     "jest": "^29.7.0",
+    "mkdirp": "^3.0.1",
+    "rimraf": "^6.0.1",
     "supertest": "^7.1.0",
     "ts-jest": "^29.3.2"
   }

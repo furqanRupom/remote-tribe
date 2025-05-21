@@ -19,11 +19,9 @@ const logger = createLogger({
         logFormat
     ),
     transports: [
-        // Console transport
         new transports.Console({
             format: combine(colorize(), logFormat),
         }),
-        // Daily rotate file transport for errors
         new DailyRotateFile({
             filename: path.join(process.cwd(), 'logs', 'error-%DATE%.log'),
             datePattern: 'YYYY-MM-DD',
@@ -32,7 +30,6 @@ const logger = createLogger({
             maxFiles: '14d',
             level: 'error',
         }),
-        // Daily rotate file transport for all logs
         new DailyRotateFile({
             filename: path.join(process.cwd(), 'logs', 'combined-%DATE%.log'),
             datePattern: 'YYYY-MM-DD',
