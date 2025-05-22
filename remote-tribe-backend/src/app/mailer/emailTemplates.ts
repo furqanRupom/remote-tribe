@@ -49,7 +49,7 @@ class Templates {
       }
       .button {
         display: inline-block;
-        background-color: #3b82f6;
+        background-color: #1e293b;
         color: white !important;
         text-decoration: none;
         padding: 12px 24px;
@@ -58,7 +58,7 @@ class Templates {
         margin: 16px 0;
       }
       .button:hover {
-        background-color: #2563eb;
+        background-color: #0f172a;
       }
       .code-box {
         background: #f8fafc;
@@ -70,7 +70,7 @@ class Templates {
         border-radius: 6px;
         margin: 24px 0;
         border: 1px dashed #cbd5e1;
-        color: #3b82f6;
+        color: #f97316;
       }
       .divider {
         height: 1px;
@@ -112,10 +112,10 @@ class Templates {
         <p class="text-muted">© ${new Date().getFullYear()} RemoteTribe. All rights reserved.</p>
         <p class="text-muted">Helping you find the best remote jobs worldwide</p>
         <div style="margin-top: 16px;">
-          <a href="https://remotetribe.com" style="color: #3b82f6; text-decoration: none; margin: 0 8px;">Website</a>
-          <a href="https://remotetribe.com/jobs" style="color: #3b82f6; text-decoration: none; margin: 0 8px;">Browse Jobs</a>
-          <a href="https://remotetribe.com/support" style="color: #3b82f6; text-decoration: none; margin: 0 8px;">Support</a>
-          <a href="https://remotetribe.com/unsubscribe" style="color: #3b82f6; text-decoration: none; margin: 0 8px;">Unsubscribe</a>
+          <a href="https://remotetribe.com" style="color: #f97316; text-decoration: none; margin: 0 8px;">Website</a>
+          <a href="https://remotetribe.com/jobs" style="color: #f97316; text-decoration: none; margin: 0 8px;">Browse Jobs</a>
+          <a href="https://remotetribe.com/support" style="color: #f97316; text-decoration: none; margin: 0 8px;">Support</a>
+          <a href="https://remotetribe.com/unsubscribe" style="color: #f97316; text-decoration: none; margin: 0 8px;">Unsubscribe</a>
         </div>
         <p class="text-muted" style="margin-top: 16px; font-size: 12px;">
           This is an automated message. If you didn't expect this email, you can safely ignore it.

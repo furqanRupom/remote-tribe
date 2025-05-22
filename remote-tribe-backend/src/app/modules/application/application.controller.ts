@@ -31,5 +31,23 @@ class Controller extends BaseController {
          data: result,
       });
    });
+   applicationByJobId = this.catchAsync(async (req, res, next) => {
+      const result = await ApplicationService.applicationByJobId(req.params.id,req.query);
+      this.sendResponse(res, {
+         statusCode: httpStatus.OK,
+         success: true,
+         message: 'Application fetched successfully',
+         data: result,
+      });
+   });
+   applicationById = this.catchAsync(async (req, res, next) => {
+      const result = await ApplicationService.applicationById(req.params.id);
+      this.sendResponse(res, {
+         statusCode: httpStatus.OK,
+         success: true,
+         message: 'Application fetched successfully',
+         data: result,
+      });
+   });   
 }
 export const ApplicationController = new Controller()

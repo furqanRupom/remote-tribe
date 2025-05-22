@@ -14,17 +14,24 @@ class Service {
         const isJobSeeker = await checkRoleUser(postedById, [jobSeeker])
         if(isEmployer){
             filterObj.postedById = postedById
+
         }
         if(isJobSeeker){
             filterObj.isApproved = true
+            filterObj.isDeleted = false
         }
-      
-        
         const result = new QueryBuilder(prisma.job, query)
             .search(jobsSearchableFields)
             .filter(filterObj, ['tags'])
             .sort()
             .paginate()
+        
+        if(isJobSeeker){
+            result.include({ postedBy: { select: { name: true, email: true } } })
+        }
+        if(isEmployer){
+            result.include({applications:true})
+        }
         return {
             data: await result.execute(),
             meta: await result.countTotal()

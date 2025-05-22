@@ -10,6 +10,7 @@ export const userSelectableFields: (keyof User)[] = [
     'phone',
     'isVerified',
     'isDeleted',
+    'links',
     'createdAt',
     'updatedAt',
 ]

@@ -12,4 +12,6 @@ router.get('/:id',auth(admin, superAdmin, jobSeeker, employer), JobController.ge
 router.put('/:id',auth(employer),validateRequest(JobValidation.jobUpdateValidation), JobController.updateJobById)
 router.delete('/:id',auth(admin, superAdmin,employer), JobController.deleteJobById)
 router.post('/:id/apply',auth(jobSeeker),validateRequest(ApplicationValidation.applicationCreateValidation), ApplicationController.jobApply)
+router.get('/:id/applications', auth(admin, superAdmin, employer), ApplicationController.applicationByJobId)
+router.get('/application/:id', auth(admin, superAdmin, employer), ApplicationController.applicationById)
 export const JobsRoutes = router;

@@ -3,10 +3,10 @@ import prisma from "../../../prisma"
 import QueryBuilder from "../../builder/querybuilder"
 import logger from "../../logger/logger"
 import ApiError from "../../middleware/apiError";
-
 import httpStatus from "http-status"
 import { buildSelectObject } from "../utils";
 import { userSelectableFields } from "./user.utils";
+import { JsonArray, JsonObject } from "@prisma/client/runtime/library";
 
 class Service {
    async allUsers(query:Record<string,unknown>){
@@ -40,7 +40,7 @@ class Service {
         throw new ApiError(httpStatus.NOT_FOUND,'User not found')
     }
     try {
-        const user = await prisma.user.update({ where: { id }, data: payload })
+        const user = await prisma.user.update({ where: { id }, data: {...payload,links:payload.links ?? {}} })
         logger.info(`User with id ${id} updated successfully.`)
       const {password, ...rest} = user
       return rest

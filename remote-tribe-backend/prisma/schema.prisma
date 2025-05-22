@@ -31,6 +31,7 @@ model User {
   applications Application[]
   phone        String?
   address      String?
+  links        Json?         @default("{}")
   isVerified   Boolean       @default(false)
   isDeleted    Boolean       @default(false)
   status       Status        @default(ACTIVE)

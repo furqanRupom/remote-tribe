@@ -3,7 +3,9 @@ import logger from "../../logger/logger"
 import ApiError from "../../middleware/apiError"
 import httpStatus from "http-status"
 import { ApplicationMail } from "./application.mail"
-import { getJob, getUser } from "../utils"
+import { buildSelectObject, getJob, getUser } from "../utils"
+import QueryBuilder from "../../builder/querybuilder"
+import { userSelectableFields } from "../user"
 
 class Service {
     async jobApply(userId: string, jobId: string, payload: { coverLetter: string }) {
@@ -60,6 +62,39 @@ class Service {
             return applications
         } catch (error: any) {
             logger.error(`Failed to fetch applications for user with id ${userId}: ${error.message}`)
+            throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Application fetching failed')
+        }
+    }
+    async applicationByJobId(jobId: string,query:Record<string,unknown>) {
+        logger.info(`Fetching applications for job with id ${jobId}`)
+        try {
+           const result = new QueryBuilder(prisma.application, query)
+           .search(['coverLetter'])
+           .filter()
+           .sort()
+           .paginate()
+            logger.info(`Applications fetched successfully for job with id ${jobId}`)
+            return {
+                data: await result.execute(),
+                meta: await result.countTotal()
+            }
+        } catch (error: any) {
+            logger.error(`Failed to fetch applications for job with id ${jobId}: ${error.message}`)
+            throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Application fetching failed')
+        }
+    }
+    async applicationById(id: string) {
+        logger.info(`Fetching application with id ${id}`)
+        try {
+            const application = await prisma.application.findUnique({ where: { id }, include:{user:buildSelectObject(userSelectableFields)} })
+            if (!application) {
+                logger.warn(`Application with id ${id} not found.`)
+                throw new ApiError(httpStatus.NOT_FOUND, 'Application not found')
+            }
+            logger.info(`Application with id ${id} found.`)
+            return application
+        } catch (error: any) {
+            logger.error(`Failed to fetch application with id ${id}: ${error.message}`)
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Application fetching failed')
         }
     }
