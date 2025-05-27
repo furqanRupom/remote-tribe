@@ -21,12 +21,12 @@ project-root/
 │   │   │   └── database.ts
 │   │   ├── modules/               # Modules for business logic
 │   │   │   ├── auth/
-                |-- auth.controller.ts
-                |-- auth.services.ts
-                |-- auth.routes.ts
-                |-- auth.validation.ts
-                |-- auth.interface.ts
-                |-- index.ts # type barrier
+│   │   │      │── auth.services.ts
+│   │   │      │── auth.controller.ts
+│   │   │      │── auth.routes.ts
+│   │   │      │── auth.validation.ts
+│   │   │      │── auth.interface.ts
+│   │   │      │── index.ts # type barrier
 │   │   │   ├── user/
 │   │   │   └── job/
 │   │   ├── builder/               # Query helpers
