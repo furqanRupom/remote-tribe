@@ -21,6 +21,12 @@ project-root/
 │   │   │   └── database.ts
 │   │   ├── modules/               # Modules for business logic
 │   │   │   ├── auth/
+                |-- auth.controller.ts
+                |-- auth.services.ts
+                |-- auth.routes.ts
+                |-- auth.validation.ts
+                |-- auth.interface.ts
+                |-- index.ts # type barrier
 │   │   │   ├── user/
 │   │   │   └── job/
 │   │   ├── builder/               # Query helpers
@@ -30,7 +36,7 @@ project-root/
 │   │   │   └── error.middleware.ts
 │   │   ├── utils/
 │   │   └── routes/
-│   │       └── routes.ts
+│   │       └── routes.ts  # All the routes from module import here
 │   ├── app.ts                     # Creates and configures Express app
 │   └── server.ts                  # Starts the server
 ├── tests/                         # Jest test files
