@@ -17,8 +17,7 @@ project-root/
 ├── src/
 │   ├── app/
 │   │   ├── config/                # DB config, env, etc.
-│   │   │   ├── env.ts
-│   │   │   └── database.ts
+│   │   │   ├── index.ts
 │   │   ├── modules/               # Modules for business logic
 │   │   │   ├── auth/
 │   │   │      │── auth.services.ts
@@ -35,9 +34,15 @@ project-root/
 │   │   │   ├── auth.middleware.ts
 │   │   │   └── error.middleware.ts
 │   │   ├── utils/
+│   │   ├── logger/
+│   │   ├── mailer/
+│   │   ├── redis/
+│   │   ├── helpers/
+│   │   ├── shared/
 │   │   └── routes/
 │   │       └── routes.ts  # All the routes from module import here
 │   ├── app.ts                     # Creates and configures Express app
+│   ├── prisma.ts                  # Prisma client init
 │   └── server.ts                  # Starts the server
 ├── tests/                         # Jest test files
 │   ├── setup.ts
