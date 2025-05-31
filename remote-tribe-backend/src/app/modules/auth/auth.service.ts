@@ -1,7 +1,7 @@
 import prisma from "../../../prisma"
 import { config } from "../../config"
 import {  verifyToken } from "../../helpers/generateToken"
-import { getCache, setCache } from "../../redis"
+import { deleteCache, getCache, setCache } from "../../redis"
 import { generateSixDigitCode } from "../../shared"
 import { AuthMail } from "./auth.mail"
 import bcrypt from "bcrypt"
@@ -45,6 +45,7 @@ class Service {
             await prisma.user.create({ data: { ...user, isVerified: true } });
             logger.info(`User created successfully: ${user.email}`);
             await AuthMail.sendConfirmationMail({ name: user.name, email: user.email });
+            await deleteCache(code)
             logger.debug(`Confirmation email sent to ${user.email}`);
         } catch (error:any) {
             logger.error(`Failed to confirm registration for ${user.email}: ${error.message}`);

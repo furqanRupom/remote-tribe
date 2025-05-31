@@ -17,3 +17,7 @@ export async function getCacheData<T>(key: string): Promise<T | null>  {
 export function getCache(key: string) {
     return getCacheData<{ name: string; email: string; password : string }>(key)
 }
+
+export async function deleteCache(key: string) {
+    return await client.del(key)
+}
